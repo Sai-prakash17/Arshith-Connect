@@ -1,0 +1,52 @@
+/* Responsive Breakpoints & Utilities */
+
+/* Mobile Handsets (<= 480px) */
+@media (max-width: 480px) {
+  .portal-navbar {
+    padding: 10px 14px;
+  }
+
+  .auth-container {
+    width: 100%;
+    padding: 0 12px;
+  }
+
+  .stat-card.full-width,
+  .stat-card.one-third,
+  .stat-card.half-width {
+    grid-column: span 12;
+  }
+
+  .admin-today-stats-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .management-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .quick-actions-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
+/* Tablets (481px to 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .admin-today-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .management-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop Desktops (>= 1024px) */
+@media (min-width: 1024px) {
+  .dashboard-container {
+    max-width: 1100px;
+  }
+}

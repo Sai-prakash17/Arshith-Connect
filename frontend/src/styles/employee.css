@@ -1,0 +1,361 @@
+@import './dashboard.css';
+@import './tables.css';
+
+/* ==========================================================================
+   Employee Portal Shell & Isolated Layout
+   ========================================================================== */
+
+.employee-portal-wrapper {
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  background-color: #f4f8f6;
+  position: relative;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+.employee-content-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 16px 20px 48px 20px;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   Employee Header matching Reference Screenshot 4
+   ========================================================================== */
+
+.employee-top-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, #f0fdf9 0%, #e4f7f0 50%, #d4f3e8 100%);
+  border: 1px solid rgba(13, 148, 136, 0.16);
+  border-radius: 18px;
+  padding: 10px 18px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 10px rgba(11, 61, 43, 0.03);
+  position: sticky;
+  top: 12px;
+  z-index: 50;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Stepped Hamburger Menu Button matching Screenshot 4 */
+.employee-hamburger-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background-color: #ffffff;
+  border: 1px solid rgba(13, 148, 136, 0.25);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding-left: 10px;
+  gap: 4.5px;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  transition: all 0.15s ease;
+}
+
+.employee-hamburger-btn:hover {
+  background-color: #f0fdf9;
+  border-color: #0d9488;
+  transform: scale(1.03);
+}
+
+.employee-hamburger-line {
+  height: 2.5px;
+  background-color: #0b3d2b;
+  border-radius: 2px;
+  transition: width 0.18s ease;
+}
+
+.employee-hamburger-line.line-1 {
+  width: 22px;
+}
+
+.employee-hamburger-line.line-2 {
+  width: 16px;
+}
+
+.employee-hamburger-line.line-3 {
+  width: 11px;
+}
+
+.employee-hamburger-btn:hover .employee-hamburger-line.line-2 {
+  width: 22px;
+}
+
+.employee-hamburger-btn:hover .employee-hamburger-line.line-3 {
+  width: 18px;
+}
+
+.employee-navbar-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.employee-logout-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background-color: #fee2e2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.employee-logout-btn:hover {
+  background-color: #fecaca;
+  color: #b91c1c;
+  transform: scale(1.05);
+}
+
+/* ==========================================================================
+   Employee Left Navigation Drawer matching Reference Screenshot 3
+   ========================================================================== */
+
+/* Dark Semi-Transparent Backdrop Overlay */
+.employee-drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  z-index: 1200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.employee-drawer-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Slide-Over Drawer Container */
+.employee-nav-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 300px;
+  max-width: 82vw;
+  height: 100vh;
+  height: 100dvh;
+  background-color: #ffffff;
+  box-shadow: 10px 0 35px rgba(0, 0, 0, 0.22);
+  z-index: 1201;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.employee-nav-drawer.open {
+  transform: translateX(0);
+}
+
+/* Drawer Header matching Screenshot 3 */
+.employee-drawer-header {
+  flex: 0 0 auto;
+  background: linear-gradient(145deg, #f0fdf9 0%, #e2f8f2 50%, #cdeee4 100%);
+  border-bottom: 1px solid rgba(13, 148, 136, 0.15);
+  padding: 26px 20px 20px 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.employee-drawer-close-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #475569;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  transition: all 0.15s ease;
+}
+
+.employee-drawer-close-btn:hover {
+  background-color: #ffffff;
+  color: #0b3d2b;
+  transform: scale(1.08);
+}
+
+.employee-drawer-logo-wrap {
+  cursor: pointer;
+  margin-bottom: 6px;
+}
+
+.employee-drawer-portal-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0b3d2b;
+  letter-spacing: -0.2px;
+  text-align: center;
+}
+
+/* Profile Snippet inside Drawer */
+.employee-drawer-profile-card {
+  margin: 12px 14px 6px 14px;
+  padding: 12px 14px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.drawer-user-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0b3d2b 0%, #047857 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.drawer-user-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.drawer-user-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #0b3d2b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.drawer-user-id {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-top: 1px;
+}
+
+/* Drawer Nav Items List matching Screenshot 3 */
+.employee-drawer-nav {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 8px 12px 28px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  background-color: #ffffff;
+  -webkit-overflow-scrolling: touch;
+}
+
+.employee-drawer-nav::-webkit-scrollbar {
+  width: 4px;
+}
+
+.employee-drawer-nav::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 999px;
+}
+
+.employee-drawer-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: none;
+  background-color: transparent;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1e293b;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.drawer-item-icon {
+  color: #0b3d2b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+}
+
+.employee-drawer-nav-item:hover {
+  background-color: #f0fdf9;
+  color: #0b3d2b;
+  padding-left: 20px;
+}
+
+.employee-drawer-nav-item:hover .drawer-item-icon {
+  transform: scale(1.1);
+}
+
+.employee-drawer-nav-item.active {
+  background-color: #ecfdf5;
+  color: #047857;
+  font-weight: 700;
+}
+
+.employee-drawer-nav-item.active .drawer-item-icon {
+  color: #047857;
+}
+
+.drawer-item-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ==========================================================================
+   Responsive Adaptations
+   ========================================================================== */
+
+@media (max-width: 480px) {
+  .employee-content-container {
+    padding: 10px 12px 36px 12px;
+  }
+  .employee-top-navbar {
+    padding: 8px 12px;
+    border-radius: 14px;
+    margin-bottom: 16px;
+  }
+  .employee-hamburger-btn {
+    width: 38px;
+    height: 38px;
+  }
+}
