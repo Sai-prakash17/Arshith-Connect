@@ -1,0 +1,295 @@
+@import './dashboard.css';
+@import './tables.css';
+
+/* ==========================================================================
+   Admin Header: Distinct, Separated Solid Clean Light Background
+   Visually separates the Arshith Connect logo/header section with a clean,
+   solid light background, subtle bottom border & soft shadow.
+   ========================================================================== */
+.admin-header-wrapper,
+.admin-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: #ffffff !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom: 1px solid rgba(13, 148, 136, 0.18) !important;
+  box-shadow: 0 2px 10px rgba(11, 61, 43, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02) !important;
+  width: 100%;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.admin-header-container {
+  background-color: transparent !important;
+}
+
+.admin-header-wrapper .portal-navbar {
+  background-color: transparent !important;
+  border-bottom: none !important;
+}
+
+/* ==========================================================================
+   Admin Portal Main Page - Dedicated Abstract Background Layer
+   Asset: /images/arshith-connect-background.png
+   Exact mint-green, aqua, white, teal, light-blue wave & circle artwork
+   Fixed relative to viewport while scrolling; strictly scoped to Admin main page
+   ========================================================================== */
+.admin-main-area.admin-main-page-wrapper {
+  background-color: transparent !important;
+}
+
+.admin-portal-wrapper.admin-main-page-active,
+.admin-portal-wrapper.admin-layout:has(.admin-main-page-bg) {
+  background-color: #f0fbf8 !important;
+}
+
+.admin-main-page-bg {
+  position: fixed;
+  top: 56px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: calc(100vh - 56px);
+  height: calc(100dvh - 56px);
+  background-image: url('/images/arshith-connect-background.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.admin-main-page {
+  position: relative;
+  isolation: isolate;
+  min-height: 100%;
+  background: transparent;
+}
+
+/* Admin Specific Overrides & Module Styles */
+.admin-management-view {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-attendance-records-card {
+  background-color: var(--surface-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(226, 232, 240, 0.85);
+  padding: 20px;
+}
+
+/* Office Timings Page Styles (matches Screenshot 1) */
+.office-timings-view {
+  max-width: 720px;
+  margin: 0 auto;
+  padding-bottom: 40px;
+}
+
+.office-timings-header {
+  margin-bottom: 24px;
+}
+
+.office-timings-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #0b3d2b;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.4px;
+}
+
+.office-timings-subtitle {
+  font-size: 0.95rem;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.45;
+}
+
+.office-timings-form-card {
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 24px 26px;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 4px 18px rgba(11, 61, 43, 0.04);
+  margin-bottom: 24px;
+}
+
+.timings-field-group {
+  margin-bottom: 22px;
+}
+
+.timings-label {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 10px;
+}
+
+/* Timing Type Radio Selector (matches Screenshot 1) */
+.timings-type-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 16px 18px;
+}
+
+.timing-radio-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 8px 10px;
+  border-radius: 10px;
+  transition: background-color 0.15s ease;
+  user-select: none;
+}
+
+.timing-radio-option:hover {
+  background-color: #f1f5f9;
+}
+
+.timing-radio-circle {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.timing-radio-circle.active {
+  border-color: #0d9488;
+  background-color: #ffffff;
+}
+
+.timing-radio-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background-color: #0d9488;
+}
+
+.timing-radio-text {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+/* Time Input Fields matching Screenshot 1 */
+.timing-input-container {
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 12px 18px;
+  transition: all 0.18s ease;
+  display: flex;
+  align-items: center;
+}
+
+.timing-input-container:focus-within {
+  border-color: #0d9488;
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+}
+
+.timing-input-time {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #047857;
+  outline: none;
+  font-family: inherit;
+}
+
+.timing-input-number {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1e293b;
+  outline: none;
+  font-family: inherit;
+}
+
+.timing-input-text {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1e293b;
+  outline: none;
+  font-family: inherit;
+}
+
+/* Save Button matching Screenshot 1 */
+.btn-save-office-timings {
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: 10px;
+  background-color: #d1d5db;
+  color: #1e293b;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.btn-save-office-timings:hover:not(:disabled) {
+  background-color: #0b3d2b;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(11, 61, 43, 0.18);
+}
+
+.btn-save-office-timings:active:not(:disabled) {
+  transform: scale(0.99);
+}
+
+.btn-save-office-timings:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Feedback Banners */
+.timings-alert-success {
+  background-color: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.timings-alert-error {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

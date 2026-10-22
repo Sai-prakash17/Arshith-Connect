@@ -1,0 +1,201 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.role == 'admin' ||
+        request.auth.token.admin == true ||
+        request.auth.token.email == 'admin@arshith.com'
+      );
+    }
+
+    function isOwner(uid) {
+      return isAuthenticated() && (
+        request.auth.uid == uid ||
+        request.auth.token.employee_id == uid
+      );
+    }
+
+    // Default deny all access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // =========================================================================
+    // EXISTING PRIMARY FIRESTORE COLLECTIONS (arshith-connect-attendance)
+    // =========================================================================
+
+    // 1. Admins Collection
+    match /admins/{adminId} {
+      allow read: if isAuthenticated() && (request.auth.uid == adminId || isAdmin());
+      allow write: if isAdmin();
+    }
+
+    // 2. Employees Collection
+    match /employees/{employeeDocId} {
+      allow read: if isAuthenticated() && (
+        resource.data.firebase_uid == request.auth.uid ||
+        resource.data.employee_id == request.auth.token.employee_id ||
+        resource.data.email == request.auth.token.email ||
+        isAdmin()
+      );
+      // Only authorized admins can create or update employee records / approval statuses
+      allow write: if isAdmin();
+    }
+
+    // 3. Attendance Collection (Single Source of Truth)
+    match /attendance/{attendanceId} {
+      allow read: if isAuthenticated() && (
+        resource.data.firebase_uid == request.auth.uid ||
+        resource.data.employee_id == request.auth.token.employee_id ||
+        resource.data.employeeId == request.auth.token.employee_id ||
+        isAdmin()
+      );
+      // Employees can create their own check-in attendance record
+      allow create: if isAuthenticated() && (
+        request.resource.data.firebase_uid == request.auth.uid ||
+        request.resource.data.employee_id == request.auth.token.employee_id ||
+        request.resource.data.employeeId == request.auth.token.employee_id ||
+        isAdmin()
+      );
+      // Employee can perform check-out; Admin can update record details
+      allow update: if isAuthenticated() && (
+        (
+          (resource.data.firebase_uid == request.auth.uid || resource.data.employee_id == request.auth.token.employee_id) &&
+          !request.resource.data.diff(resource.data).affectedKeys().hasAny(['date', 'geofence_status'])
+        ) ||
+        isAdmin()
+      );
+      allow delete: if isAdmin();
+    }
+
+    // Also support plural alias if present
+    match /attendances/{attendanceId} {
+      allow read, write: if isAuthenticated() && (
+        resource.data.firebase_uid == request.auth.uid ||
+        resource.data.employee_id == request.auth.token.employee_id ||
+        isAdmin()
+      );
+    }
+
+    // 4. Notifications Collection (Announcements & Alerts)
+    match /notifications/{notificationId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+    match /announcements/{announcementId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+
+    // 5. OfficeSettings Collection (Geofence & Timing Policy)
+    match /officeSettings/{settingId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+    match /office_timings/{timingId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+
+    // 6. Settings Collection (System Configuration)
+    match /settings/{settingId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+
+    // =========================================================================
+    // ADDITIONAL APPLICATION SUPPORT COLLECTIONS
+    // =========================================================================
+
+    // Users Collection (Authentication metadata)
+    match /users/{userId} {
+      allow read: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+      allow create: if isAuthenticated();
+      allow update: if isAdmin() || (
+        isAuthenticated() && request.auth.uid == userId &&
+        !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role', 'approval_status', 'is_active'])
+      );
+      allow delete: if isAdmin();
+    }
+
+    // Registration Requests Collection
+    match /registration_requests/{requestId} {
+      allow read: if isAuthenticated() && (
+        resource.data.user_id == request.auth.uid ||
+        resource.data.firebase_uid == request.auth.uid ||
+        isAdmin()
+      );
+      allow create: if isAuthenticated() && request.resource.data.status == 'PENDING';
+      allow update, delete: if isAdmin();
+    }
+
+    // Attendance Photos Metadata
+    match /attendance_photos/{photoId} {
+      allow read: if isAuthenticated() && (
+        resource.data.uploaded_by == request.auth.uid ||
+        resource.data.employee_id == request.auth.token.employee_id ||
+        isAdmin()
+      );
+      allow create: if isAuthenticated();
+      allow update, delete: if isAdmin();
+    }
+
+    // Leaves Collection
+    match /leaves/{leaveId} {
+      allow read: if isAuthenticated() && (
+        resource.data.employee_id == request.auth.token.employee_id ||
+        resource.data.firebase_uid == request.auth.uid ||
+        isAdmin()
+      );
+      allow create: if isAuthenticated() && request.resource.data.status == 'PENDING';
+      allow update, delete: if isAdmin();
+    }
+
+    // Holidays & Meetings & Teams
+    match /holidays/{holidayId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+    match /meetings/{meetingId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+    match /teams/{teamId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+
+    // Work Assignments & Work Updates
+    match /assignments/{assignmentId} {
+      allow read: if isAuthenticated();
+      allow create, delete: if isAdmin();
+      allow update: if isAdmin() || (
+        isAuthenticated() &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['progress', 'status', 'updated_at'])
+      );
+    }
+    match /work_assignments/{assignmentId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+    match /work_updates/{updateId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update, delete: if isAdmin();
+    }
+
+    // Audit Logs Collection (Immutable audit trail)
+    match /audit_logs/{logId} {
+      allow read: if isAdmin();
+      allow create: if isAuthenticated();
+      allow update, delete: if false;
+    }
+  }
+}
