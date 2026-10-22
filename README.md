@@ -1,37 +1,65 @@
-# Arshith Connect — Complete React.js + FastAPI + PostgreSQL Platform
+# Arshith Connect
 
-Full-Stack Enterprise Workforce Management, Daily Attendance Tracking, Leave Processing, and Administration Portal built with **React.js 19**, **FastAPI**, **SQLAlchemy 2.0**, **Alembic**, and **PostgreSQL**.
+> **Enterprise Workforce Management, Real-Time Attendance Tracking & Administration Platform**
+
+Arshith Connect is an integrated full-stack enterprise workforce management platform featuring a **Native Android Application**, a modern **React Web Application**, a high-performance **FastAPI REST Service**, and **Firebase Cloud Functions** with PostgreSQL and Firebase Firestore integration.
 
 ---
 
-## 1. System Overview
+## 📁 Repository Structure
 
-**Arshith Connect** provides a fully integrated digital portal for employees and corporate administrators:
+```text
+Arshith-Connect/
+├── android/              # Native Android App (Java, Gradle, ViewBinding, Firebase SDK)
+├── frontend/             # React 19 + Vite Web Application (Modular Pure CSS, Lucide Icons)
+├── backend/              # FastAPI + SQLAlchemy 2.0 + Alembic REST API Service
+├── functions/            # Firebase Cloud Functions (v2) for Event Triggers & Notifications
+├── firebase.json         # Firebase Configuration (Firestore, Storage, Functions, Hosting)
+├── firestore.rules       # Cloud Firestore Security Rules
+├── firestore.indexes.json# Firestore Composite Indexes
+├── storage.rules         # Firebase Cloud Storage Security Rules
+├── .firebaserc           # Firebase Project Configuration
+└── README.md             # Project Documentation
+```
+
+---
+
+## 🚀 Key Modules & Capabilities
+
+### 📱 Android Application (`android/`)
 - **Employee Portal**:
-  - Live punch in / punch out with real-time duration clock.
-  - Work mode selection (WFO / WFH).
-  - Formal leave applications with date range validation and balance tracking.
-  - Upcoming company holiday calendar and countdown.
-  - Video meeting directory with direct Join Call links.
-  - Management circulars & announcements feed.
-  - Personal profile & credentials mapping.
-  - Sprint work assignments and daily standup submissions.
+  - GPS-verified Check In (WFO requires 100m office geofence & selfie camera capture; WFH bypasses photo/GPS).
+  - Daily Punch Out with duration logging.
+  - Leave Applications (Casual, Sick, Earned) with real-time status.
+  - Scheduled daily work updates across 4 distinct shift timeframes.
+  - Organization announcements and Jitsi Meet video conference integration.
 - **Admin Portal**:
-  - Headline live workforce analytics (Present, Late, WFO, WFH, Pending Leaves, Monthly Holidays).
-  - Full employee roster with search, filter, Add Employee modal, and deletion controls.
-  - Complete attendance verification logs with CSV export.
-  - Leave approval and rejection workflow.
-  - Official company holiday manager.
-  - Team creation, membership enrollment, and departmental structures.
-  - Task delegation, assignment milestones, and completion tracking.
-  - Daily standup review with categorical filtering (Operations, Deployment, Design, Dev, HR).
-  - New employee registration authorization console.
-  - Corporate office timings (regular working hours & custom special-day schedules) with grace period rules.
-  - Attendance reports and departmental analytics with CSV export.
+  - Real-time workforce dashboard (Present, Late, WFH, WFO, Leaves).
+  - Employee approval workflow (authorizes `pending` accounts).
+  - Leave request approvals and rejections with automated notifications.
+  - Office timings configuration (thresholds, grace periods, office GPS coordinates).
+  - Monthly attendance summaries and CSV report exports.
+
+### 💻 Web Application (`frontend/`)
+- Built with **React 19**, **Vite**, **React Router v7**, and **Lucide React**.
+- Modular Vanilla CSS with design tokens, responsive layout, and glassmorphism styling.
+- Admin management dashboards, employee lists, holiday management, and work assignment boards.
+- Web-based attendance check-in modal with webcam selfie capture and browser geolocation.
+- Video meetings, circulars, and daily standup reviews.
+
+### ⚡ REST API Backend (`backend/`)
+- High-performance **FastAPI** service with **SQLAlchemy 2.0** ORM and **Alembic** migrations.
+- Role-based JWT authentication, Pydantic v2 schemas, and PostgreSQL storage.
+- Comprehensive test suite covering attendance, leaves, announcements, and assignments.
+
+### 🔔 Cloud Functions (`functions/`)
+- Firebase Cloud Functions v2 (Node.js) triggered on Firestore document events.
+- Automated email dispatch via **Nodemailer** (SMTP).
+- Instant SMS notifications via **Twilio** upon employee registration approval or rejection.
 
 ---
 
-## 2. Technology Stack
+## 🛠️ Technology Stack
 
 - **Frontend**:
   - Framework: React.js 19 (ESModules, JSX)
@@ -48,115 +76,15 @@ Full-Stack Enterprise Workforce Management, Daily Attendance Tracking, Leave Pro
   - Database Migrations: Alembic
   - Data Validation: Pydantic v2
   - Authentication: JWT tokens (`pyjwt`) & Secure password hashing (`bcrypt`)
-- **Database**:
+- **Database & Cloud**:
   - PostgreSQL 18.4 (`arshith_connect_db`)
+  - Google Cloud / Firebase Firestore & Storage
 - **Testing**:
   - Pytest (`pytest`, `httpx`)
 
 ---
 
-## 3. Project Directory Structure
-
-```text
-ArshithConnect/
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── admin/
-│   │   │   ├── common/
-│   │   │   └── employee/
-│   │   ├── layouts/
-│   │   │   ├── AdminLayout.jsx
-│   │   │   └── EmployeeLayout.jsx
-│   │   ├── pages/
-│   │   │   ├── admin/
-│   │   │   ├── auth/
-│   │   │   └── employee/
-│   │   ├── routes/
-│   │   │   └── AppRoutes.jsx
-│   │   ├── services/
-│   │   │   ├── announcementService.js
-│   │   │   ├── api.js
-│   │   │   ├── assignmentService.js
-│   │   │   ├── attendanceService.js
-│   │   │   ├── authService.js
-│   │   │   ├── dashboardService.js
-│   │   │   ├── employeeService.js
-│   │   │   ├── holidayService.js
-│   │   │   ├── leaveService.js
-│   │   │   ├── meetingService.js
-│   │   │   ├── officeTimingService.js
-│   │   │   ├── registrationRequestService.js
-│   │   │   ├── reportService.js
-│   │   │   ├── teamService.js
-│   │   │   └── workUpdateService.js
-│   │   ├── styles/
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   ├── .env
-│   ├── .env.example
-│   ├── package.json
-│   └── vite.config.js
-│
-├── backend/
-│   ├── alembic/
-│   │   ├── versions/
-│   │   │   └── 2c3b9f4937cd_initial_schema.py
-│   │   └── env.py
-│   ├── app/
-│   │   ├── core/
-│   │   │   ├── config.py
-│   │   │   └── security.py
-│   │   ├── db/
-│   │   │   ├── base.py
-│   │   │   └── session.py
-│   │   ├── dependencies/
-│   │   │   └── auth.py
-│   │   ├── models/
-│   │   │   ├── announcement.py
-│   │   │   ├── attendance.py
-│   │   │   ├── employee.py
-│   │   │   ├── holiday.py
-│   │   │   ├── leave.py
-│   │   │   ├── meeting.py
-│   │   │   ├── office_timing.py
-│   │   │   ├── registration_request.py
-│   │   │   ├── team.py
-│   │   │   ├── user.py
-│   │   │   └── work.py
-│   │   ├── routers/
-│   │   │   ├── announcements.py
-│   │   │   ├── assignments.py
-│   │   │   ├── attendance.py
-│   │   │   ├── auth.py
-│   │   │   ├── dashboard.py
-│   │   │   ├── employees.py
-│   │   │   ├── holidays.py
-│   │   │   ├── leaves.py
-│   │   │   ├── meetings.py
-│   │   │   ├── office_timings.py
-│   │   │   ├── registration_requests.py
-│   │   │   ├── reports.py
-│   │   │   ├── teams.py
-│   │   │   └── work_updates.py
-│   │   ├── schemas/
-│   │   ├── services/
-│   │   │   └── init_db.py
-│   │   └── main.py
-│   ├── tests/
-│   │   └── test_api.py
-│   ├── .env
-│   ├── .env.example
-│   ├── alembic.ini
-│   ├── pytest.ini
-│   └── requirements.txt
-│
-└── README.md
-```
-
----
-
-## 4. PostgreSQL Database Setup
+## 🗄️ PostgreSQL Database Setup
 
 1. **Database Name**: `arshith_connect_db`
 2. **Local PostgreSQL Connection URL**:
@@ -180,7 +108,7 @@ ArshithConnect/
 
 ---
 
-## 5. Seed Credentials
+## 🔐 Seed Credentials
 
 The database is seeded on startup with default test accounts:
 
@@ -196,72 +124,46 @@ The database is seeded on startup with default test accounts:
 
 ---
 
-## 6. Windows / VS Code Startup Instructions
+## 🚀 Running the Project
 
-Run the application using two separate PowerShell terminal tabs in VS Code.
-
-### Terminal 1: FastAPI Backend
-
+### 1. Web Frontend (`frontend/`)
 ```powershell
-# Navigate to backend directory
-cd c:\Users\skame\OneDrive\Desktop\ArshithConnect\backend
+cd frontend
+npm install
+npm run dev
+```
+- Local URL: `http://localhost:5173`
 
-# Activate virtual environment
+### 2. FastAPI Backend (`backend/`)
+```powershell
+cd backend
+python -m venv .venv
 .\venv\Scripts\Activate.ps1
-
-# (Optional) Run database migrations
+pip install -r requirements.txt
 alembic upgrade head
-
-# Start FastAPI development server
 uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
 ```
 - API Base URL: `http://127.0.0.1:8000`
-- Interactive Swagger OpenAPI Documentation: `http://127.0.0.1:8000/docs`
-- Health check: `http://127.0.0.1:8000/health`
+- Interactive Swagger OpenAPI Docs: `http://127.0.0.1:8000/docs`
 
-### Terminal 2: React.js Frontend
+### 3. Android Application (`android/`)
+1. Open [`android/`](android/) in **Android Studio**.
+2. Configure `local.properties` with your Android SDK location.
+3. Build & run:
+   ```bash
+   ./gradlew assembleDebug
+   ```
 
-```powershell
-# Navigate to frontend directory
-cd c:\Users\skame\OneDrive\Desktop\ArshithConnect\frontend
-
-# Install dependencies if not already installed
+### 4. Firebase Cloud Functions (`functions/`)
+```bash
+cd functions
 npm install
-
-# Start Vite development server
-npm run dev
+npm run serve  # Local emulator
+firebase deploy --only functions
 ```
-- Frontend application URL: `http://localhost:5173`
 
 ---
 
-## 7. Running Backend Tests
-
-In the backend virtual environment:
-
-```powershell
-cd c:\Users\skame\OneDrive\Desktop\ArshithConnect\backend
-.\venv\Scripts\Activate.ps1
-pytest -v
-```
-
-The test suite validates:
-1. Health check & database readiness probe.
-2. Administrator login & JWT generation.
-3. Employee login & JWT generation.
-4. Rejection of invalid credentials.
-5. Admin-only route protection against standard employee tokens.
-6. Employee lifecycle (creation, duplicate prevention, retrieval).
-7. Attendance check-in & check-out lifecycle.
-8. Leave request submission & administrator approval.
-9. Admin dashboard metrics calculation.
-
----
-
-## 8. Frontend Production Build Check
-
-```powershell
-cd c:\Users\skame\OneDrive\Desktop\ArshithConnect\frontend
-npm run build
-```
-Creates verified, production-minified bundle in `frontend/dist/`.
+## 🔒 Security & Rules
+- **Firestore Rules**: Strict RBAC ensuring employees can only access their own records while admins have supervisory access.
+- **Storage Rules**: Guard profile photos and check-in camera captures.

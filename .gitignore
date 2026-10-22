@@ -1,20 +1,52 @@
-# Dependencies
+# Dependencies & Node
 node_modules/
+dist/
+build/
+*/build/
 .pnp
 .pnp.js
-
-# Testing & Caches
 coverage/
 .turbo/
 .eslintcache
 .stylelintcache
 
-# Production builds
-dist/
-build/
-*.zip
+# Testing & Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+firebase-debug.log*
+firestore-debug.log*
+ui-debug.log*
 
-# Local environment & secrets
+# Python & Backend
+venv/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+*.sqlite3
+storage/
+firestore_local_db.json
+database_backup.sql
+database_backup_export.json
+postgres_backup_data.json
+*.sql
+
+# Android Native
+.gradle/
+local.properties
+*.iml
+.kotlin/
+captures/
+.externalNativeBuild/
+.cxx/
+ArshithConnect3/
+
+# Local Environment & Secrets
 .env
 .env.local
 .env.development.local
@@ -33,28 +65,4 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
-
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-# Python & Backend
-venv/
-.venv/
-env/
-__pycache__/
-*.py[cod]
-*$py.class
-.pytest_cache/
-*.sqlite3
-storage/
-firestore_local_db.json
-database_backup.sql
-database_backup_export.json
-postgres_backup_data.json
-*.sql
-
-
+*.zip
